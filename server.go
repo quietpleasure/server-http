@@ -154,11 +154,11 @@ func (s *Server) StartWithAwaitStop(stoptimeout time.Duration) error {
 	)
 	<-sig
 
-	gracefullCtx, cancelShutdown := context.WithTimeout(s.BaseContext(nil), stoptimeout)
-	defer cancelShutdown()
+	ctx, cancel := context.WithTimeout(s.BaseContext(nil), stoptimeout)
+	defer cancel()
 	s.SetKeepAlivesEnabled(false)
 	
-	return s.Shutdown(gracefullCtx)
+	return s.Shutdown(ctx)
 }
 
 
